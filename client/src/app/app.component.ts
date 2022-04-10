@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { User } from './_models/user';
+import { AccountService } from './_services/account.service';
 
 // Decorator - gives class some extra powers (here, class to be an angular component)
 @Component({
@@ -14,18 +16,14 @@ export class AppComponent implements OnInit{
   // Life cycle events - 1) constructor - dependancy injection 2) Initialization (Implements OnInit)
   // Too early to make an Http request here. Here we construct the component and make sure Http service is available
   // Http requests are async
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private accountService: AccountService) {}
 
   ngOnInit() {
-    this.getUsers();
+    this.setCurrentUser();
   }
 
-  getUsers(){
-    // Observables are lazy, doesn't do anything until we subscribe (doesn't get the data)
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-    }, error => {
-      console.log(error);
-    })
+  setCurrentUser(){
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.accountService.setCurrentUser(user);
   }
 }

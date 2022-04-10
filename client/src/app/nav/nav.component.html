@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dating App</a>
+            <!-- | async - async pipe - we automatically unsubscribe to currentUser$ observable if navcomponent is no longer visible / not in use -->
+            <!-- *ngIf - Structural directives - modifies the domain object model in html -->
+            <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="accountService.currentUser$ | async">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Messages</a>
+                </li>
+            </ul>
+
+            <div class="dropdown" *ngIf="accountService.currentUser$| async" dropdown>
+                <a class="dropdown-toggle text-light" dropdownToggle>Welcome User </a>
+                <div class="dropdown-menu mt-3" *dropdownMenu>
+                    <a class="dropdown-item">Edit profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" (click)="logout()">Logout</a>
+                </div>
+            </div>
+
+            <!--#loginForm - Template reference variable  
+                [(ngModel)] (angular snippet)-banana in a box 
+                [] - for recieving from the components
+                () - when data goes other way
+                [()] - 2-way binding
+                when logged in this is not going to be hidden. It's not going to exist at all due to ngif structural directive
+                To hide - use [[hidden]=""]-->
+            <form *ngIf="(accountService.currentUser$| async) === null" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+                <input 
+                    name="username"
+                    [(ngModel)]="model.username"
+                    class="form-control mr-2" 
+                    type="text" 
+                    placeholder="Username">
+                <input 
+                    name="password"
+                    [(ngModel)]="model.password"
+                    class="form-control mr-2" 
+                    type="password" 
+                    placeholder="Password">
+                <button class="btn btn-outline-success" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</nav>
