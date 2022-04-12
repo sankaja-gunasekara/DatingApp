@@ -6,6 +6,7 @@ import { User } from '../_models/user';
 
 // Ng service is singleton - when injected to a component and is initialized will stay initialized 
 // until the app is disposed (user closes the browser). Stays active through the lifetime of the app.
+// Good place to share data among components
 // Components are destroyed when we move on to another component
 
 // To make http requests, services are used
