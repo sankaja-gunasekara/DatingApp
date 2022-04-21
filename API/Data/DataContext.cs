@@ -15,5 +15,6 @@ namespace API.Data
 
         // Creating a dbset from the Appuser class  The table name is Users
         public DbSet<AppUser> Users { get; set; }
+        // Photos are added by users. We're not accessing photos independantly. Therefore no need to specify photos here
     }
 }
