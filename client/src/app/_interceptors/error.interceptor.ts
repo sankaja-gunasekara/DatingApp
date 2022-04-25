@@ -10,6 +10,8 @@ import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
 
+// Interceoptors initialize when the app is started. And stays until we close the app.
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
