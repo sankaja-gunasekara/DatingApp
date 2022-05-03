@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -45,6 +46,28 @@ namespace API.Controllers
             // return _mapper.Map<MemberDto>(user); // Then convert into a DTO rather than directly getting a DTO from the DB
 
             return await _userRepository.GetMemberAsync(username);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto) // Don't return an user object
+        {
+            // Get the username from the token
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            // If Map is  not used, have to update values individually for each property as follows
+            // user.City = memberUpdateDto.City;
+
+            _mapper.Map(memberUpdateDto, user);
+
+            // Mark the entity as changed. So it won't give any error in the next step even when there 
+            // is no actual changes to the entity.
+            _userRepository.Update(user);
+
+            if (await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to update user");
+
         }
     }
 }

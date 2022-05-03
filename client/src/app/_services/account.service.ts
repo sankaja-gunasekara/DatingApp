@@ -5,10 +5,11 @@ import { map } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
-// Ng service is singleton - when injected to a component and is initialized will stay initialized 
+// Ng service is singleton - when injected to a component and is initialized by the component will stay initialized/active 
 // until the app is disposed (user closes the browser). Stays active through the lifetime of the app.
 // Good place to share data among components
-// Components are destroyed when we move on to another component
+// Used to manage the state 
+// Components on the other hand are destroyed when we move on to another component
 
 // To make http requests, services are used
 
